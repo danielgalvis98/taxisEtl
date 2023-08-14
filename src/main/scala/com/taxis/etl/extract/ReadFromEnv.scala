@@ -14,7 +14,11 @@ object ReadFromEnv {
         sys.env.get("TAXIS_ETL_BASE_URL")
     }
 
-    def readDownloadFiles(): Boolean = {
-        sys.env.getOrElse("TAXIS_ETL_DOWNLOAD_FILES", "false").equals("true")
+    def readDownloadSource(): String = {
+        sys.env.getOrElse("TAXIS_ETL_DOWNLOAD_SOURCE", "false")
+    }
+
+    def readBucketName(): String = {
+        sys.env.getOrElse("TAXIS_ETL_BUCKET_NAME", "prft-etl-testing")
     }
 }
