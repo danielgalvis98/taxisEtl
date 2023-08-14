@@ -115,18 +115,27 @@ Setup the following environment variables
 
 TAXIS_ETL_FILES, TAXIS_ETL_DOWNLOAD_FOLDER, TAXIS_ETL_BASE_URL, TAXIS_ETL_DOWNLOAD_FILES
 
-Please configure the following environment variables
+Files from S3
 
 ```bash
 export TAXIS_ETL_FILES=yellow_tripdata_2020-01.parquet,yellow_tripdata_2021-01.parquet,yellow_tripdata_2022-01.parquet
 export TAXIS_ETL_DOWNLOAD_FOLDER=downloads
-export TAXIS_ETL_BASE_URL=https://d37ci6vzurychx.cloudfront.net/trip-data
-export TAXIS_ETL_DOWNLOAD_FILES=false
+export TAXIS_ETL_DOWNLOAD_SOURCE=s3
+export TAXIS_ETL_BUCKET_NAME=s3-bucket
+```
+
+Files from cloud server
+
+```bash
+export TAXIS_ETL_FILES=yellow_tripdata_2020-01.parquet,yellow_tripdata_2021-01.parquet,yellow_tripdata_2022-01.parquet
+export TAXIS_ETL_DOWNLOAD_FOLDER=downloads
+export TAXIS_ETL_BASE_URL=https://...
+export TAXIS_ETL_DOWNLOAD_SOURCE=url
 ```
 
 For the first time execution download the files by changing the environment variable to true
 ```bash
-export TAXIS_ETL_DOWNLOAD_FILES=true
+export TAXIS_ETL_DOWNLOAD_SOURCE=local
 ```
 
 Scala is used to run the compiled Java file that contains all the instructions. In this example we are going to run specific classes defined in the code
