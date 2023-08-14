@@ -1,14 +1,14 @@
 package com.taxis.etl.helpers
 
 import com.taxis.etl.utils.Spark.spark
-import org.apache.log4j.Logger
+import org.apache.logging.log4j.{LogManager, Logger}
 import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
 import scala.util.{Failure, Success, Try}
 
 object DataFrameUtils {
-  val log: Logger = Logger.getLogger("ETL_logger")
+  val log: Logger = LogManager.getLogger("ETL_logger")
 
   def filterByColumnAndPrefixEndsWith(df: DataFrame, columnName: String, endPrefix: String): Try[Array[Row]] = {
     Try(df.filter(col(columnName) endsWith endPrefix).collect())
