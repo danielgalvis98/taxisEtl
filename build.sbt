@@ -1,6 +1,7 @@
 name := "taxis-etl"
 version := "0.1.0"
 scalaVersion := "2.12.17"
+exportJars := true
 
 libraryDependencies += "org.apache.spark" %% "spark-sql" % "3.4.1"
 libraryDependencies += "org.apache.logging.log4j" % "log4j-core" % "2.20.0"
