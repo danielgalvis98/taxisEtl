@@ -1,0 +1,13 @@
+[project]
+name = "taxis_etl_prft"
+version = "0.0.1"
+description = "A small example package"
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+requires-python = ">=3.7"
+dependencies = [
+    "pyspark",
+    "python-dotenv"
+]
