@@ -38,3 +38,5 @@ results
 .DS_Store
 target
 .bsp
+venv
+*.egg-info

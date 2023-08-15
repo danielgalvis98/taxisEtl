@@ -46,7 +46,7 @@ Using the columns:
 To be able to run this project you should have a properly configured environment. The instructions below contains the required
 steps you should follow to be able to run the entire project.
 
-### Automated install Linux, Mac, WSL
+### Install java (Linux, Mac, WSL)
 
 Install [sdkman](https://sdkman.io/) and activate the environment
 
@@ -58,56 +58,19 @@ sdk env install
 sdk env
 ```
 
-### Manual install on windows
+### Install python dependencies
 
-#### 1. Install Java
+We recommend to use a virtual env with python
 
-* Install the java development kit it must be JDK 1.8.0
+```bash
+python -m venv venv
+```
 
-#### 2. Create environment variable for Java
+And then install the dependencies, -e in the custom folder reads the pyproject.toml
 
-* Go to the windows menu or to the control panel and search for "Environment variables" and select the "edit environment variables" option
-* In the new window, select the "Environment Variables"
-* Now you will see a new window with two main boxes. Use the upper one (User variables) to create the required variable
-* Select the "New..." button and put the following info:
-  * Variable name: `JAVA_HOME`
-  * Variable value: Path to the JDK installation folder (default folder is `C:\Program Files\Java\jdk1.8.0_202`)
-* Select the "Path" environment variable and push the "Edit..." button
-* Add the path to the "bin" folder inside your JDK installation folder (E.g. `C:\Program Files\Java\jdk1.8.0_202\bin`)
-* Select the "OK" button
-
-#### 3. Install Spark
-
-* Configure the application /TO COMPLETE/
-* Create a new environment variable following the steps in the "Create environment variables for Java" section
-  * Variable name: `SPARK_HOME`
-  * Variable value: Path to the Spark installation folder (E.g. `C:\Spark\spark-3.2.3-bin-hadoop3.2`)
-* Select the "Path" environment variable and push the "Edit..." button
-* Add the path to the "bin" folder inside your Spark installation folder (E.g. `C:\Spark\spark-3.2.3-bin-hadoop3.2\bin`)
-* Select the "OK" button
-
-#### 4. Install Hadoop
-
-Hadoop is used to process "parquet" files.
-
-* Download the "`Hadoop.dll`" and "`winutils.exe`" files from the corresponding version to your spark installation from "https://github.com/kontext-tech/winutils"
-* Create a new folder called "Hadoop" in C:/, and a new folder inside called "bin"
-* Create a new environment variable following the steps in the "Create environment variables for Java" section
-  * Variable name: `HADOOP_HOME`
-  * Variable value: `C:\Hadoop`
-* Select the "Path" environment variable and push the "Edit..." button
-* Add the path to the "bin" folder inside your Hadoop folder (E.g. `C:\Hadoop\bin`)
-* Select the "OK" button
-
-### 5. IDE
-
-You can use any IDE that supports Scala and Java languages.
-We recommend to use IntelliJ Community Edition, which support Scala installing the Scala plugin.
-
-* To install the Scala plugin push "ctr + alt + s", a new window will appear
-* In the left panel Select "Plugins"
-* Select the "Marketplace" tab that is in the upper middle
-* Search for "Scala" in the search box and install it
+```bash
+pip install -e .
+```
 
 ## Running the project
 
@@ -154,3 +117,25 @@ Scala is used to run the compiled Java file that contains all the instructions. 
 
 * Santiago Ruiz
 * Diego Peña
+
+## Workarounds
+
+### Java exception Class org.apache.hadoop.fs.s3a.S3AFileSystem not found
+
+If you see this exception in the logs when you run the spark submit command
+
+```bash
+java.lang.RuntimeException: java.lang.ClassNotFoundException: Class org.apache.hadoop.fs.s3a.S3AFileSystem not found
+```
+
+You can add all the dependencies required by hadoop s3 to the spark config file  `$SPARK_HOME/conf/spark-defaults.conf`
+
+Please ensure that environment varibles `$SPARK_HOME` and `$HADOOP_HOME` are setup
+
+> when you run `sdk env` both environment variables are setup, check that running  `echo $SPARK_HOME` and `echo $HADOOP_HOME`
+
+If you use mac/linux/wsl, you run the following command
+
+```bash
+echo "spark.driver.extraClassPath $HADOOP_HOME/share/hadoop/tools/lib/*:$HADOOP_HOME/share/hadoop/common/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/common/lib/woodstox-core-5.4.0.jar:$HADOOP_HOME/share/hadoop/common/lib/stax2-api-4.2.1.jar:$HADOOP_HOME/share/hadoop/common/lib/commons-configuration2-2.8.0.jar" >> $SPARK_HOME/conf/spark-defaults.conf
+```
